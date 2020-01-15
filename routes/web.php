@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/tokenHandler', 'InstagramController@generatedToken');
+Route::get('/generateToken', 'InstagramController@generateToken');
+Route::get('/clientCodeHandler', 'InstagramController@clientCodeHandle');
