@@ -17,3 +17,7 @@ Route::get('/', function () {
 
 Route::get('/generateToken', 'InstagramController@generateToken');
 Route::get('/clientCodeHandler', 'InstagramController@clientCodeHandle');
+Route::get('/getMedia', 'InstagramController@getMedia');
+Route::get('/refreshToken', 'InstagramController@refreshToken');
+Route::get('/getMediaFromFile', 'InstagramController@getMediaFromFile');
+Route::post('/saveUserData', 'InstagramController@saveUserData');
