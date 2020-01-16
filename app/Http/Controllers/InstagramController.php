@@ -42,10 +42,4 @@ class InstagramController extends Controller
         $instaFeed = new InstaFeed;
         return $instaFeed->getMediaFromFile();
     }
-
-    public function saveUserData()
-    {
-        $client = new ClientHandler;
-        return $client->saveClientData();
-    }
 }

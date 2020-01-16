@@ -69045,10 +69045,13 @@ if (document.getElementById('app')) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 var InstagramDataForm = function InstagramDataForm() {
-  function myFunction() {
+  function copyToClipboard() {
     var copyText = document.getElementById("copyUrl");
     copyText.select();
     copyText.setSelectionRange(0, 99999);
@@ -69056,14 +69059,29 @@ var InstagramDataForm = function InstagramDataForm() {
     alert("Copied the text: " + copyText.value);
   }
 
+  function saveClientData(e) {
+    e.preventDefault();
+    var appID = document.querySelector('#appID').value;
+    var appSecret = document.querySelector('#appSecret').value;
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/updateClient', {
+      appID: appID,
+      appSecret: appSecret
+    });
+    return false;
+  }
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "col-md-8"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: function onSubmit(e) {
+      return saveClientData(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "appID"
   }, "App ID"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "email",
+    type: "text",
     className: "form-control",
     id: "appID",
     "aria-describedby": "appIDhelp"
@@ -69104,7 +69122,7 @@ var InstagramDataForm = function InstagramDataForm() {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "btn btn-outline-secondary",
     onClick: function onClick() {
-      return myFunction();
+      return copyToClipboard();
     },
     type: "button",
     id: "button-addon2"
@@ -69133,8 +69151,8 @@ var InstagramDataForm = function InstagramDataForm() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\User\instagramFeed\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\User\instagramFeed\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\Projekty\instagramFeed\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\Projekty\instagramFeed\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

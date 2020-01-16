@@ -1,19 +1,30 @@
 import React from 'react';
+import axios from 'axios';
 
 const InstagramDataForm = () => {
-    function myFunction() {
+    function copyToClipboard() {
         const copyText = document.getElementById("copyUrl");
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         document.execCommand("copy");
         alert("Copied the text: " + copyText.value);
     }
+    function saveClientData(e){
+        e.preventDefault();
+        const appID = document.querySelector('#appID').value;
+        const appSecret = document.querySelector('#appSecret').value;
+        axios.post('/updateClient', {
+            appID: appID,
+            appSecret: appSecret,
+        });
+        return false;
+    }
     return (
         <div className="col-md-8">
-            <form>
+            <form onSubmit={(e) => saveClientData(e)}>
                 <div className="form-group">
                     <label htmlFor="appID">App ID</label>
-                    <input type="email" className="form-control" id="appID" aria-describedby="appIDhelp" />
+                    <input type="text" className="form-control" id="appID" aria-describedby="appIDhelp" />
                     <small id="appIDhelp" className="form-text text-muted">Dane z pola Instagram App ID</small>
                 </div>
                 <div className="form-group">
@@ -28,7 +39,7 @@ const InstagramDataForm = () => {
                 <div className="input-group mb-3">
                     <input readOnly id="copyUrl" type="text" className="form-control" value="https://127.0.0.1:8000/clientCodeHandler" aria-label="Recipient's username" aria-describedby="button-addon2" />
                     <div className="input-group-append">
-                        <button className="btn btn-outline-secondary" onClick={() => myFunction()} type="button" id="button-addon2">Kopiuj</button>
+                        <button className="btn btn-outline-secondary" onClick={() => copyToClipboard()} type="button" id="button-addon2">Kopiuj</button>
                     </div>
                 </div>
             </div>
