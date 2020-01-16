@@ -11,7 +11,10 @@ Odświeżanie zawartości bramki odbywa się raz dziennie lub na polecenie użyt
 - warstwa wizualna formularza do uzupełnienia
 - podpięcie bazy danych
 - pobieranie zawartości instagrama
+- pozyskiwanie danych klienta do odpalenia aplikacji
+- zapis danych klienta w bazie
 
 ## TODO
 - podpięcie warstwy frontendowej (React),
-- pozyskiwanie danych klienta do odpalenia aplikacji
+- utworzenie podstrony do odświeżania tokena,
+- utworzenie podstrony do natychmiastowego pobrania postów
