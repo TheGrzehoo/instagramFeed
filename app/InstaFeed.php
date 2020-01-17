@@ -7,18 +7,40 @@ use App\InstaData;
 use App\Client;
 
 class InstaFeed
-{
-    private $appID = 609591429775722;
-    private $appSecret = 'fea0a73531076f51a4a1ee29512f668e';
-    private $redirectUrl = 'https://127.0.0.1:8000/clientCodeHandler';
+{  
+    private $appSecret;
+    private $appID;
+    private $redirectUrl;
+    function __construct()
+    {
+        $clientData = Client::find(1);
+        $this->appID = $clientData->appID;
+        $this->appSecret = $clientData->appSecret;
+        $this->redirectUrl = app('config')->get('instagram')['redirectUrl'];
+    }
 
-    public function saveMediaToFile($media){
+    public function clientCodeHandler()
+    {
+        $shortLivedToken =  $this->generateShortLivedToken();
+        $longLivedTokenJSON = $this->generateLongLivedToken($shortLivedToken);
+        $this->storeLongLivedToken($longLivedTokenJSON);
+        return 'long lived token generated <a href="/refreshToken">ośwież token</a>';
+    }
+
+    public function getMedia()
+    {
+        $longLivedToken = $this->getLongLivedTokenFromDb();
+        $mediaData = $this->getMediaData($longLivedToken);
+        $this->saveMediaToFile($mediaData);
+    }
+
+    private function saveMediaToFile($media){
         $fp = fopen('media.json', 'w');
         fwrite($fp, json_encode($media));
         fclose($fp);
     }
 
-    public function getMediaData(String $token)
+    private function getMediaData(String $token)
     {
         $tokenGenerationUrl = 'https://graph.instagram.com/me/media' .
             '?fields=' . 'id,permalink,media_url' .
@@ -34,12 +56,10 @@ class InstaFeed
         return $mediaData;
     }
 
-    public function generateLongLivedToken(String $shortLiveToken)
+    private function generateLongLivedToken(String $shortLiveToken)
     {
-        $clientData = Client::find(1);
-        $appSecret = $clientData->appSecret;
         $tokenGenerationUrl = 'https://graph.instagram.com/access_token' .
-            '?client_secret=' . $appSecret .
+            '?client_secret=' . $this->appSecret .
             '&grant_type=' . 'ig_exchange_token' .
             '&access_token=' . $shortLiveToken;
 
@@ -52,16 +72,12 @@ class InstaFeed
         return $generatedLongLivedToken;
     }
 
-    public function generateShortLivedToken()
+    private function generateShortLivedToken()
     {
-        $clientData = Client::find(1);
-        $appID = $clientData->appID;
-        $appSecret = $clientData->appSecret;
-
         $tokenGenerationUrl = 'https://api.instagram.com/oauth/access_token';
         $postTokenData = [
-            'client_id' => $appID,
-            'client_secret' => $appSecret,
+            'client_id' => $this->appID,
+            'client_secret' => $this->appSecret,
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->redirectUrl,
             'code' => $_GET['code'],
@@ -82,18 +98,17 @@ class InstaFeed
 
     public function getShortLivedTokenUrl()
     {
-        $clientData = Client::find(1);
-        $appID = $clientData->appID;
+        
         // link do strony z potwierdzeniem, które generuje kod (automatyczne przekierowanie do redirectUrl)
         $testUrl = 'https://api.instagram.com/oauth/authorize?client_id=' .
-            $appID . '&redirect_uri=' .
+            $this->appID . '&redirect_uri=' .
             $this->redirectUrl . '&scope=user_profile,user_media&response_type=code';
 
         $link = '<a href="' . $testUrl . '">Link do akceptacji instagrama</a>';
         return $link;
     }
 
-    public function storeLongLivedToken($tokenJSON)
+    private function storeLongLivedToken($tokenJSON)
     {
         try {
             $tokenToStore = new InstaData();
@@ -115,7 +130,7 @@ class InstaFeed
         return $returnMessage;
     }
 
-    public function getLongLivedTokenFromDb()
+    private function getLongLivedTokenFromDb()
     {
         $tokenToStore = InstaData::where('isExpired', 0);
         return $tokenToStore->get()[0]->longLivedToken;
@@ -139,10 +154,6 @@ class InstaFeed
         $tokenStoreMsg = $this->storeLongLivedToken($generatedLongLivedTokenJSON);
 
         return 'token '.$tokenStoreMsg;
-
-        // $tokenStored = InstaData::where('isExpired', 0)->get()[0]->longLivedToken;
-        
-        // return 'New token has been generated: ' . $tokenStored;
     }
 
     public function getMediaFromFile()
