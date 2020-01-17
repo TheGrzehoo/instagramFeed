@@ -18,3 +18,4 @@ Odświeżanie zawartości bramki odbywa się raz dziennie lub na polecenie użyt
 - podpięcie warstwy frontendowej (React),
 - utworzenie podstrony do odświeżania tokena,
 - utworzenie podstrony do natychmiastowego pobrania postów
+- wyłapywanie błędów
