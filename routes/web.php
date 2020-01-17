@@ -21,3 +21,4 @@ Route::get('/getMedia', 'InstagramController@getMedia');
 Route::get('/refreshToken', 'InstagramController@refreshToken');
 Route::get('/getMediaFromFile', 'InstagramController@getMediaFromFile');
 Route::post('/updateClient', 'ClientController@updateClient');
+Route::get('/isClientSaved', 'ClientController@isClientSaved');

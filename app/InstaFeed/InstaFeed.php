@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\InstaFeed;
 
 use Exception;
 use App\InstaData;
@@ -13,7 +13,7 @@ class InstaFeed
     private $redirectUrl;
     function __construct()
     {
-        $clientData = Client::find(1);
+        $clientData = Client::first();
         $this->appID = $clientData->appID;
         $this->appSecret = $clientData->appSecret;
         $this->redirectUrl = app('config')->get('instagram')['redirectUrl'];
@@ -24,7 +24,18 @@ class InstaFeed
         $shortLivedToken =  $this->generateShortLivedToken();
         $longLivedTokenJSON = $this->generateLongLivedToken($shortLivedToken);
         $this->storeLongLivedToken($longLivedTokenJSON);
-        return 'long lived token generated <a href="/refreshToken">ośwież token</a>';
+        return redirect('/');
+    }
+    
+    public function getShortLivedTokenUrl()
+    {
+        
+        // link do strony z potwierdzeniem, które generuje kod (automatyczne przekierowanie do redirectUrl)
+        $tokenUrl = 'https://api.instagram.com/oauth/authorize?client_id=' .
+            $this->appID . '&redirect_uri=' .
+            $this->redirectUrl . '&scope=user_profile,user_media&response_type=code';
+
+        return $tokenUrl;
     }
 
     public function getMedia()
@@ -32,6 +43,31 @@ class InstaFeed
         $longLivedToken = $this->getLongLivedTokenFromDb();
         $mediaData = $this->getMediaData($longLivedToken);
         $this->saveMediaToFile($mediaData);
+    }
+
+    public function refreshAndStoreLongLivedToken()
+    {
+        $oldToken = $this->getLongLivedTokenFromDb();
+        InstaData::where('longLivedToken', $oldToken)
+        ->update(['isExpired' => 1]);
+
+        $tokenGenerationUrl = 'https://graph.instagram.com/refresh_access_token' .
+            '?grant_type=' . 'ig_refresh_token' .
+            '&access_token=' . $oldToken;
+
+        $curl = curl_init($tokenGenerationUrl);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $generatedJSON = curl_exec($curl);
+        curl_close($curl);
+        $generatedLongLivedTokenJSON = json_decode($generatedJSON, true);
+        $tokenStoreMsg = $this->storeLongLivedToken($generatedLongLivedTokenJSON);
+
+        return redirect('/');
+    }
+
+    public function getMediaFromFile()
+    {
+        return file_get_contents("media.json");
     }
 
     private function saveMediaToFile($media){
@@ -96,17 +132,6 @@ class InstaFeed
         return $generatedShortLivedToken;
     }
 
-    public function getShortLivedTokenUrl()
-    {
-        
-        // link do strony z potwierdzeniem, które generuje kod (automatyczne przekierowanie do redirectUrl)
-        $testUrl = 'https://api.instagram.com/oauth/authorize?client_id=' .
-            $this->appID . '&redirect_uri=' .
-            $this->redirectUrl . '&scope=user_profile,user_media&response_type=code';
-
-        $link = '<a href="' . $testUrl . '">Link do akceptacji instagrama</a>';
-        return $link;
-    }
 
     private function storeLongLivedToken($tokenJSON)
     {
@@ -134,30 +159,5 @@ class InstaFeed
     {
         $tokenToStore = InstaData::where('isExpired', 0);
         return $tokenToStore->get()[0]->longLivedToken;
-    }
-
-    public function refreshAndStoreLongLivedToken()
-    {
-        $oldToken = $this->getLongLivedTokenFromDb();
-        InstaData::where('longLivedToken', $oldToken)
-        ->update(['isExpired' => 1]);
-
-        $tokenGenerationUrl = 'https://graph.instagram.com/refresh_access_token' .
-            '?grant_type=' . 'ig_refresh_token' .
-            '&access_token=' . $oldToken;
-
-        $curl = curl_init($tokenGenerationUrl);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $generatedJSON = curl_exec($curl);
-        curl_close($curl);
-        $generatedLongLivedTokenJSON = json_decode($generatedJSON, true);
-        $tokenStoreMsg = $this->storeLongLivedToken($generatedLongLivedTokenJSON);
-
-        return 'token '.$tokenStoreMsg;
-    }
-
-    public function getMediaFromFile()
-    {
-        return file_get_contents("media.json");
     }
 }

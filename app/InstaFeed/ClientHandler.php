@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\InstaFeed;
 
 use Exception;
 use App\Client;
@@ -32,5 +32,13 @@ class ClientHandler
     }
 
     return $message;
+  }
+
+  public static function isClientSaved(){
+    if (count(Client::all())) {
+      return 'true';
+    } else {
+      return 'false';
+    }
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const InstagramDataForm = () => {
+const InstagramDataForm = (props) => {
     function copyToClipboard() {
         const copyText = document.getElementById("copyUrl");
         copyText.select();
@@ -11,12 +11,17 @@ const InstagramDataForm = () => {
     }
     function saveClientData(e){
         e.preventDefault();
+        console.log('loading');
         const appID = document.querySelector('#appID').value;
         const appSecret = document.querySelector('#appSecret').value;
         axios.post('/updateClient', {
             appID: appID,
             appSecret: appSecret,
-        });
+        }).then(function(){
+            props.loadedInfo({
+                reloadPage: true
+            })
+        })
         return false;
     }
     return (

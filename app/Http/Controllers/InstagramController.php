@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ClientHandler;
 use Illuminate\Http\Request;
-use App\InstaFeed;
+use App\InstaFeed\InstaFeed;
 
 class InstagramController extends Controller
 {

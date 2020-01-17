@@ -68979,58 +68979,271 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _instagramDataForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./instagramDataForm */ "./resources/js/components/instagramDataForm.jsx");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _ManageInstaFeed__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ManageInstaFeed */ "./resources/js/components/ManageInstaFeed.jsx");
+/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Loading */ "./resources/js/components/Loading.jsx");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var App =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(App, _Component);
 
-  function App() {
-    _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(App).apply(this, arguments));
+
+
+
+function App() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    clientData: 'loading',
+    reloadPage: true
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      userInfo = _useState2[0],
+      setUserInfo = _useState2[1];
+
+  var pageContent = function pageContent() {
+    switch (userInfo.clientData) {
+      case 'loading':
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loading__WEBPACK_IMPORTED_MODULE_5__["default"], null);
+
+      case true:
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ManageInstaFeed__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          refreshClient: setUserInfo
+        });
+
+      case false:
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_instagramDataForm__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          loadedInfo: setUserInfo
+        });
+
+      default:
+        return 'Refresh Page and try again';
+        break;
+    }
+  };
+
+  if (userInfo.reloadPage) {
+    axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/isClientSaved').then(function (obj) {
+      console.log(obj);
+      setUserInfo(_objectSpread({}, userInfo, {
+        clientData: obj.data,
+        reloadPage: false
+      }));
+    });
   }
 
-  _createClass(App, [{
-    key: "render",
-    value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row justify-content-center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_instagramDataForm__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "container",
+    style: {
+      width: '100%'
     }
-  }]);
-
-  return App;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-
-
-if (document.getElementById('app')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById('app'));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row justify-content-center"
+  }, pageContent()));
 }
+react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById('app'));
+
+/***/ }),
+
+/***/ "./resources/js/components/Loading.jsx":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Loading.jsx ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Loading = function Loading() {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      height: '100vh'
+    },
+    className: "d-flex align-items-center"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "spinner-grow text-primary",
+    role: "status"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "sr-only"
+  }, "Loading...")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Loading);
+
+/***/ }),
+
+/***/ "./resources/js/components/ManageInstaFeed.jsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/ManageInstaFeed.jsx ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _MediaItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MediaItem */ "./resources/js/components/MediaItem.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var ManageInstaFeed = function ManageInstaFeed(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    mediaLoaded: false,
+    mediaData: {},
+    generatedLink: false,
+    link: ''
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      media = _useState2[0],
+      setMedia = _useState2[1];
+
+  function refreshMedia() {
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/getMedia').then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/getMediaFromFile').then(function (obj) {
+        setMedia({
+          mediaLoaded: true,
+          mediaData: obj.data
+        });
+      });
+    });
+  }
+
+  function updateClient() {
+    props.refreshClient({
+      clientData: false,
+      refreshPage: false
+    });
+  }
+
+  function refreshToken() {
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/generateToken').then(function (obj) {
+      setMedia({
+        generatedLink: true,
+        link: obj.data
+      });
+    });
+  }
+
+  var mediaContent, refreshLink;
+
+  if (media.mediaLoaded) {
+    mediaContent = media.mediaData.map(function (item) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MediaItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        mediaData: item
+      });
+    });
+  }
+
+  if (media.generatedLink) {
+    console.log('elo');
+    refreshLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: media.link
+    }, "Kliknij, aby od\u015Bwie\u017Cy\u0107 token");
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "my-5 d-flex flex-wrap justify-content-center"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12 mb-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "refreshInsta",
+    className: "mr-4"
+  }, "Od\u015Bwie\u017C list\u0119 zdj\u0119\u0107 z Instagrama"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick() {
+      return refreshMedia();
+    },
+    className: "btn btn-primary",
+    id: "refreshInsta"
+  }, "Od\u015Bwie\u017C")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12 mb-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "refreshClient",
+    className: "mr-4"
+  }, "Zmie\u0144 dane klienta"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick() {
+      updateClient();
+    },
+    className: "btn btn-primary",
+    id: "refreshClient"
+  }, "Zmie\u0144")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12 mb-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "refreshToken",
+    className: "mr-4"
+  }, "Od\u015Bwie\u017C token dost\u0119pu"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick() {
+      refreshToken();
+    },
+    className: "btn btn-primary",
+    id: "refreshToken"
+  }, "Od\u015Bwie\u017C"), refreshLink), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, mediaContent));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ManageInstaFeed);
+
+/***/ }),
+
+/***/ "./resources/js/components/MediaItem.jsx":
+/*!***********************************************!*\
+  !*** ./resources/js/components/MediaItem.jsx ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var MediaItem = function MediaItem(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-md-4 mb-4",
+    key: props.mediaData.id
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "d-block",
+    href: props.mediaData.permalink
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "d-block",
+    style: {
+      maxWidth: '100%'
+    },
+    src: props.mediaData.media_url,
+    alt: props.mediaData.id
+  })));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (MediaItem);
 
 /***/ }),
 
@@ -69050,7 +69263,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var InstagramDataForm = function InstagramDataForm() {
+var InstagramDataForm = function InstagramDataForm(props) {
   function copyToClipboard() {
     var copyText = document.getElementById("copyUrl");
     copyText.select();
@@ -69061,11 +69274,16 @@ var InstagramDataForm = function InstagramDataForm() {
 
   function saveClientData(e) {
     e.preventDefault();
+    console.log('loading');
     var appID = document.querySelector('#appID').value;
     var appSecret = document.querySelector('#appSecret').value;
     axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/updateClient', {
       appID: appID,
       appSecret: appSecret
+    }).then(function () {
+      props.loadedInfo({
+        reloadPage: true
+      });
     });
     return false;
   }
@@ -69151,8 +69369,8 @@ var InstagramDataForm = function InstagramDataForm() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\Projekty\instagramFeed\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\Projekty\instagramFeed\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\User\instagramFeed\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\User\instagramFeed\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
