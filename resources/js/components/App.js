@@ -30,7 +30,6 @@ export default function App () {
 
     if(userInfo.reloadPage){
         axios.get('/isClientSaved').then((obj) => {
-            console.log(obj);
             setUserInfo({
                 ...userInfo,
                 clientData: obj.data,

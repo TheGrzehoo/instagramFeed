@@ -101,8 +101,6 @@ const ManageInstaFeed = (props) => {
       return <MediaItem key={item.id} mediaData={item} />
     })
 
-  } else {
-    refreshMedia();
   }
 
   if (media.generatedLink) {

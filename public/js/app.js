@@ -69040,7 +69040,6 @@ function App() {
 
   if (userInfo.reloadPage) {
     axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/isClientSaved').then(function (obj) {
-      console.log(obj);
       setUserInfo(_objectSpread({}, userInfo, {
         clientData: obj.data,
         reloadPage: false
@@ -69221,8 +69220,6 @@ var ManageInstaFeed = function ManageInstaFeed(props) {
         mediaData: item
       });
     });
-  } else {
-    refreshMedia();
   }
 
   if (media.generatedLink) {
@@ -69285,24 +69282,10 @@ var ManageInstaFeed = function ManageInstaFeed(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 var ManageItem = function ManageItem(props) {
   var data = props.data;
-
-  var _setState = Object(react__WEBPACK_IMPORTED_MODULE_0__["setState"])(),
-      _setState2 = _slicedToArray(_setState, 2),
-      loading = _setState2[0],
-      setLoading = _setState2[1];
-
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "list-group-item"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69312,13 +69295,7 @@ var ManageItem = function ManageItem(props) {
       data.buttonAction();
     },
     className: "btn btn-primary"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "spinner-border spinner-border-sm",
-    role: "status",
-    "aria-hidden": "true"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "sr-only"
-  }, "Loading..."), data.buttonText)));
+  }, data.buttonText)));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ManageItem);
@@ -69570,8 +69547,8 @@ var Loading = function Loading(props) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\Projekty\instagramFeed\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\Projekty\instagramFeed\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\User\instagramFeed\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\User\instagramFeed\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

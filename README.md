@@ -21,3 +21,5 @@ Odświeżanie zawartości bramki odbywa się raz dziennie lub na polecenie użyt
 ## TODO
 - wyłapywanie błędów
 - refactor?
+- przepięcie na /api/
+- nawigacja
