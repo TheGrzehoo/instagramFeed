@@ -23,3 +23,4 @@ Odświeżanie zawartości bramki odbywa się raz dziennie lub na polecenie użyt
 - refactor?
 - przepięcie na /api/
 - nawigacja
+- zarządzanie plikami przez metody laravelowe
