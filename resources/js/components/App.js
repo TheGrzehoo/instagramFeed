@@ -4,7 +4,8 @@ import InstagramDataForm from './instagramDataForm';
 import axios from 'axios';
 import { useState } from 'react';
 import ManageInstaFeed from './ManageInstaFeed';
-import Loading from './Loading';
+import Loading from './util/Loading';
+import Logo from './Logo';
 
 
 export default function App () {
@@ -16,7 +17,7 @@ export default function App () {
     let pageContent = function() {
         switch (userInfo.clientData) {
             case 'loading':
-                return <Loading />
+                return <Loading fixed={true} />
             case true:
                 return <ManageInstaFeed refreshClient={setUserInfo} />
             case false:
@@ -40,10 +41,9 @@ export default function App () {
     
 
     return (
-        <div className="container" style={{width: '100%'}}>
-            <div className="row justify-content-center">
+        <div id="container" className="container">
+            <Logo />
             {pageContent()}
-            </div>
         </div>
     );
 }

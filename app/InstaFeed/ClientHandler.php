@@ -4,6 +4,7 @@ namespace App\InstaFeed;
 
 use Exception;
 use App\Client;
+use App\InstaData;
 use Illuminate\Support\Facades\Log;
 
 class ClientHandler
@@ -15,19 +16,19 @@ class ClientHandler
 
     try {
       if (count(Client::all())) {
-        $client = Client::first(1);
+        $client = Client::first();
       } else {
         $client = new Client();
       }
       $client->appID = $appID;
       $client->appSecret = $appSecret;
       $error = $client->save();
+      InstaData::whereNotNull('id')->delete();
       $message = [
         'error' => $error,
         'message' => $error ? 'Client updated successfully' : 'Database error occured. Try again'
       ];
     } catch (Exception $e) {
-      // Log::critical('Database error - client save failed: ' . $e);
       $message = 'Database error occured. Try again.' . $e;
     }
 

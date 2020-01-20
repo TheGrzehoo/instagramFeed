@@ -68982,7 +68982,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _ManageInstaFeed__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ManageInstaFeed */ "./resources/js/components/ManageInstaFeed.jsx");
-/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Loading */ "./resources/js/components/Loading.jsx");
+/* harmony import */ var _util_Loading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util/Loading */ "./resources/js/components/util/Loading.jsx");
+/* harmony import */ var _Logo__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Logo */ "./resources/js/components/Logo.jsx");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -69004,6 +69005,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function App() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     clientData: 'loading',
@@ -69016,7 +69018,9 @@ function App() {
   var pageContent = function pageContent() {
     switch (userInfo.clientData) {
       case 'loading':
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loading__WEBPACK_IMPORTED_MODULE_5__["default"], null);
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_Loading__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          fixed: true
+        });
 
       case true:
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ManageInstaFeed__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -69045,22 +69049,18 @@ function App() {
   }
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "container",
-    style: {
-      width: '100%'
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "row justify-content-center"
-  }, pageContent()));
+    id: "container",
+    className: "container"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Logo__WEBPACK_IMPORTED_MODULE_6__["default"], null), pageContent());
 }
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById('app'));
 
 /***/ }),
 
-/***/ "./resources/js/components/Loading.jsx":
-/*!*********************************************!*\
-  !*** ./resources/js/components/Loading.jsx ***!
-  \*********************************************/
+/***/ "./resources/js/components/Logo.jsx":
+/*!******************************************!*\
+  !*** ./resources/js/components/Logo.jsx ***!
+  \******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -69070,21 +69070,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
-var Loading = function Loading() {
+var Logo = function Logo() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    style: {
-      height: '100vh'
-    },
-    className: "d-flex align-items-center"
+    className: "row"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "spinner-grow text-primary",
-    role: "status"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "sr-only"
-  }, "Loading...")));
+    className: "col-md-12 text-center"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "d-inline-block",
+    src: "/imgs/insta_logo.png",
+    alt: ""
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-md-12 mb-4 text-center"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Feed creator")));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Loading);
+/* harmony default export */ __webpack_exports__["default"] = (Logo);
 
 /***/ }),
 
@@ -69102,6 +69102,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _MediaItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MediaItem */ "./resources/js/components/MediaItem.jsx");
+/* harmony import */ var _ManageItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ManageItem */ "./resources/js/components/ManageItem.jsx");
+/* harmony import */ var _util_Alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./util/Alert */ "./resources/js/components/util/Alert.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -69114,16 +69116,47 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var ManageInstaFeed = function ManageInstaFeed(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     mediaLoaded: false,
     mediaData: {},
     generatedLink: false,
-    link: ''
+    link: null
   }),
       _useState2 = _slicedToArray(_useState, 2),
       media = _useState2[0],
       setMedia = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    displayError: false,
+    alertData: {
+      message: null,
+      action: null,
+      actionText: null,
+      actionHref: null,
+      fixed: true,
+      "class": 'primary'
+    }
+  }),
+      _useState4 = _slicedToArray(_useState3, 2),
+      error = _useState4[0],
+      setError = _useState4[1];
+
+  var alert = null;
+
+  if (error.displayError) {
+    console.log(error);
+    alert = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_Alert__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      message: error.alertData.message,
+      action: error.alertData.action,
+      actionText: error.alertData.actionText,
+      actionHref: error.alertData.actionHref,
+      fixed: error.alertData.fixed,
+      "class": error.alertData["class"]
+    });
+  }
 
   function refreshMedia() {
     axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/getMedia').then(function () {
@@ -69131,6 +69164,33 @@ var ManageInstaFeed = function ManageInstaFeed(props) {
         setMedia({
           mediaLoaded: true,
           mediaData: obj.data
+        });
+      });
+    })["catch"](function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/generateToken').then(function (obj) {
+        setError({
+          displayError: true,
+          alertData: {
+            message: 'Wygeneruj odpowiedni token dostępu ',
+            action: function action() {
+              setError({
+                displayError: false,
+                alertData: {
+                  message: null,
+                  action: null,
+                  actionText: null,
+                  actionHref: null,
+                  fixed: true,
+                  "class": 'primary'
+                }
+              });
+              return true;
+            },
+            actionText: 'klikając w ten link',
+            actionHref: obj.data,
+            fixed: true,
+            "class": 'primary'
+          }
         });
       });
     });
@@ -69157,59 +69217,111 @@ var ManageInstaFeed = function ManageInstaFeed(props) {
   if (media.mediaLoaded) {
     mediaContent = media.mediaData.map(function (item) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MediaItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        key: item.id,
         mediaData: item
       });
     });
+  } else {
+    refreshMedia();
   }
 
   if (media.generatedLink) {
-    console.log('elo');
-    refreshLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: media.link
-    }, "Kliknij, aby od\u015Bwie\u017Cy\u0107 token");
+    refreshLink = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_Alert__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      message: "Aby od\u015Bwie\u017Cy\u0107 token, ",
+      action: function action() {
+        return true;
+      },
+      actionText: "kliknij w ten link",
+      actionHref: media.link,
+      fixed: true,
+      "class": "primary"
+    });
   }
 
+  var manageItems = [{
+    labelText: 'Odśwież listę zdjęć z Instagrama',
+    buttonText: 'Odśwież',
+    buttonAction: refreshMedia
+  }, {
+    labelText: 'Zmień dane klienta',
+    buttonText: 'Zmień',
+    buttonAction: updateClient
+  }, {
+    labelText: 'Odśwież token dostępu',
+    buttonText: 'Odśwież',
+    buttonAction: refreshToken
+  }];
+  var manageItemsComponents = manageItems.map(function (item, index) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ManageItem__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      key: index,
+      data: item
+    });
+  });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "my-5 d-flex flex-wrap justify-content-center"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-12 mb-4"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "refreshInsta",
-    className: "mr-4"
-  }, "Od\u015Bwie\u017C list\u0119 zdj\u0119\u0107 z Instagrama"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    onClick: function onClick() {
-      return refreshMedia();
-    },
-    className: "btn btn-primary",
-    id: "refreshInsta"
-  }, "Od\u015Bwie\u017C")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-12 mb-4"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "refreshClient",
-    className: "mr-4"
-  }, "Zmie\u0144 dane klienta"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    onClick: function onClick() {
-      updateClient();
-    },
-    className: "btn btn-primary",
-    id: "refreshClient"
-  }, "Zmie\u0144")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-12 mb-4"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "refreshToken",
-    className: "mr-4"
-  }, "Od\u015Bwie\u017C token dost\u0119pu"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    onClick: function onClick() {
-      refreshToken();
-    },
-    className: "btn btn-primary",
-    id: "refreshToken"
-  }, "Od\u015Bwie\u017C"), refreshLink), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "row"
-  }, mediaContent));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-md-6 mx-auto mb-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "list-group"
+  }, manageItemsComponents), refreshLink), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, mediaContent)), alert);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ManageInstaFeed);
+
+/***/ }),
+
+/***/ "./resources/js/components/ManageItem.jsx":
+/*!************************************************!*\
+  !*** ./resources/js/components/ManageItem.jsx ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+var ManageItem = function ManageItem(props) {
+  var data = props.data;
+
+  var _setState = Object(react__WEBPACK_IMPORTED_MODULE_0__["setState"])(),
+      _setState2 = _slicedToArray(_setState, 2),
+      loading = _setState2[0],
+      setLoading = _setState2[1];
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "list-group-item"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-between align-items-center"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, data.labelText), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick() {
+      data.buttonAction();
+    },
+    className: "btn btn-primary"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "spinner-border spinner-border-sm",
+    role: "status",
+    "aria-hidden": "true"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "sr-only"
+  }, "Loading..."), data.buttonText)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ManageItem);
 
 /***/ }),
 
@@ -69228,8 +69340,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var MediaItem = function MediaItem(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-md-4 mb-4",
-    key: props.mediaData.id
+    className: "col-md-4 mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "d-block",
     href: props.mediaData.permalink
@@ -69282,14 +69393,17 @@ var InstagramDataForm = function InstagramDataForm(props) {
       appSecret: appSecret
     }).then(function () {
       props.loadedInfo({
-        reloadPage: true
+        reloadPage: true,
+        clientData: 'loading'
       });
     });
     return false;
   }
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-md-8"
+    className: "row"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-md-6 mx-auto"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: function onSubmit(e) {
       return saveClientData(e);
@@ -69300,6 +69414,7 @@ var InstagramDataForm = function InstagramDataForm(props) {
     htmlFor: "appID"
   }, "App ID"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
+    required: "true",
     className: "form-control",
     id: "appID",
     "aria-describedby": "appIDhelp"
@@ -69312,6 +69427,7 @@ var InstagramDataForm = function InstagramDataForm(props) {
     htmlFor: "appSecret"
   }, "App secret key"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "password",
+    required: "true",
     className: "form-control",
     id: "appSecret",
     "aria-describedby": "appSecretHelp"
@@ -69344,10 +69460,95 @@ var InstagramDataForm = function InstagramDataForm(props) {
     },
     type: "button",
     id: "button-addon2"
-  }, "Kopiuj")))));
+  }, "Kopiuj"))))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (InstagramDataForm);
+
+/***/ }),
+
+/***/ "./resources/js/components/util/Alert.jsx":
+/*!************************************************!*\
+  !*** ./resources/js/components/util/Alert.jsx ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Alert = function Alert(props) {
+  var alertWindowStyles = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(255,255,255,0.6)',
+    zIndex: 999
+  };
+
+  if (props.fixed) {
+    console.log(alertWindowStyles);
+  }
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex justify-content-center align-items-center",
+    style: props.fixed ? alertWindowStyles : ''
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: 'alert alert-' + props["class"],
+    role: "alert"
+  }, props.message, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: props.actionHref,
+    onClick: function onClick() {
+      props.action;
+    },
+    className: "alert-link"
+  }, props.actionText)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Alert);
+
+/***/ }),
+
+/***/ "./resources/js/components/util/Loading.jsx":
+/*!**************************************************!*\
+  !*** ./resources/js/components/util/Loading.jsx ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Loading = function Loading(props) {
+  var loadingFixed = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(255,255,255,0.6)',
+    zIndex: 999
+  };
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex align-items-center justify-content-center",
+    style: props.fixed ? loadingFixed : {}
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "spinner-grow text-primary",
+    role: "status"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "sr-only"
+  }, "Loading...")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Loading);
 
 /***/ }),
 
@@ -69369,8 +69570,8 @@ var InstagramDataForm = function InstagramDataForm(props) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\User\instagramFeed\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\User\instagramFeed\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\Projekty\instagramFeed\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\Projekty\instagramFeed\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
