@@ -1,4 +1,4 @@
-# Aplikacja do integracji z instagramem.
+# Aplikacja do pobierania postów z Instagrama.
 Aplikacja pobiera dane klienta, a następnie generuje odpowiedni link, przetwarza otrzymany kod i na jego podstawie generuje tokeny.
 Pobrane dane zawartości z instagrama zapisywane są do pliku JSON, który jest dostępny pod odpowiednią bramką.
 
