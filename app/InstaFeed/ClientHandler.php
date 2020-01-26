@@ -22,14 +22,17 @@ class ClientHandler
       }
       $client->appID = $appID;
       $client->appSecret = $appSecret;
-      $error = $client->save();
+      $success = $client->save();
       InstaData::whereNotNull('id')->delete();
       $message = [
-        'error' => $error,
-        'message' => $error ? 'Client updated successfully' : 'Database error occured. Try again'
+        'error' => $success,
+        'message' => $success ? 'Client updated successfully' : 'Database error occured. Try again'
       ];
     } catch (Exception $e) {
-      $message = 'Database error occured. Try again.' . $e;
+      $message = [
+        'error' => true,
+        'message' => 'Database error occured. Try again.' . $e,
+      ];
     }
 
     return $message;

@@ -19,8 +19,5 @@ Odświeżanie zawartości bramki odbywa się raz dziennie lub na polecenie użyt
 - utworzenie podstrony do natychmiastowego pobrania postów
 
 ## TODO
-- wyłapywanie błędów
-- refactor?
-- przepięcie na /api/
+- podpięcie React Router
 - nawigacja
-- zarządzanie plikami przez metody laravelowe

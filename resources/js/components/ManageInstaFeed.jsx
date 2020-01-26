@@ -5,6 +5,7 @@ import ManageItem from './ManageItem';
 import Alert from './util/Alert';
 
 const ManageInstaFeed = (props) => {
+
   const [media, setMedia] = useState({
     mediaLoaded: false,
     mediaData: {},
@@ -24,35 +25,14 @@ const ManageInstaFeed = (props) => {
     }
   });
 
-  let alert = null;
-
-  if (error.displayError) {
-    console.log(error);
-    alert = <Alert
-      message={error.alertData.message}
-      action={error.alertData.action}
-      actionText={error.alertData.actionText}
-      actionHref={error.alertData.actionHref}
-      fixed={error.alertData.fixed}
-      class={error.alertData.class}
-    />
-  }
-
   function refreshMedia() {
-    axios.get('/getMedia')
-      .then(() => {
-        axios.get('/getMediaFromFile').then((obj) => {
-          setMedia({
-            mediaLoaded: true,
-            mediaData: obj.data
-          })
-        });
-      }).catch(() => {
-        axios.get('/generateToken').then((obj) => {
+    axios.get('/api/getMedia')
+      .then((obj) => {
+        if(obj.data.error) {
           setError({
             displayError: true,
             alertData: {
-              message: 'Wygeneruj odpowiedni token dostępu ',
+              message: 'Odśwież token dostępu',
               action: () => {
                 setError({
                   displayError: false,
@@ -67,12 +47,64 @@ const ManageInstaFeed = (props) => {
                 });
                 return true;
               },
-              actionText: 'klikając w ten link',
-              actionHref: obj.data,
+              actionText: 'Zamknij',
+              actionHref: '##',
               fixed: true,
-              class: 'primary',
+              class: 'warning',
             }
           })
+        } else {
+          axios.get('/api/getMediaFromFile').then((obj) => {
+            setMedia({
+              mediaLoaded: true,
+              mediaData: obj.data
+            })
+          });
+        }
+      }).catch(() => {
+        axios.get('/api/generateToken').then((obj) => {
+          console.log(obj);
+          if (obj.data.error) {
+            setError({
+              displayError: true,
+              alertData: {
+                message: 'Niepoprawne dane klienta. ',
+                action: () => {
+                  updateClient();
+                  return true;
+                },
+                actionText: 'Wprowadź je jeszcze raz',
+                actionHref: '##',
+                fixed: true,
+                class: 'danger',
+              }
+            })
+          } else {
+            setError({
+              displayError: true,
+              alertData: {
+                message: 'Wygeneruj odpowiedni token dostępu ',
+                action: () => {
+                  setError({
+                    displayError: false,
+                    alertData: {
+                      message: null,
+                      action: null,
+                      actionText: null,
+                      actionHref: null,
+                      fixed: true,
+                      class: 'primary',
+                    }
+                  });
+                  return true;
+                },
+                actionText: 'klikając w ten link',
+                actionHref: obj.data.data,
+                fixed: true,
+                class: 'primary',
+              }
+            })
+          }
         })
       });
   }
@@ -85,33 +117,28 @@ const ManageInstaFeed = (props) => {
   }
 
   function refreshToken() {
-    axios.get('/generateToken').then((obj) => {
-      setMedia({
-        generatedLink: true,
-        link: obj.data
-      })
+    axios.get('/api/generateToken').then((obj) => {
+      if(obj.data.error) {
+        setError({
+          displayError: true,
+          alertData: {
+            message: 'Nieprawidłowe dane klienta. ',
+            action: () => {
+              updateClient();
+            },
+            actionText: 'Zmień dane.',
+            actionHref: '##',
+            fixed: true,
+            class: 'warning',
+          }
+        })
+      } else {
+        setMedia({
+          generatedLink: true,
+          link: obj.data.data
+        })
+      }
     })
-  }
-
-  let mediaContent, refreshLink;
-
-  if (media.mediaLoaded) {
-
-    mediaContent = media.mediaData.map((item) => {
-      return <MediaItem key={item.id} mediaData={item} />
-    })
-
-  }
-
-  if (media.generatedLink) {
-    refreshLink = <Alert
-      message='Aby odświeżyć token, '
-      action={() => true}
-      actionText='kliknij w ten link'
-      actionHref={media.link}
-      fixed={true}
-      class='primary'
-    />
   }
 
   const manageItems = [
@@ -135,20 +162,43 @@ const ManageInstaFeed = (props) => {
   const manageItemsComponents = manageItems.map((item, index) => {
     return <ManageItem key={index} data={item} />
   })
+
+  const alert = <Alert
+    message={error.alertData.message}
+    action={error.alertData.action}
+    actionText={error.alertData.actionText}
+    actionHref={error.alertData.actionHref}
+    fixed={error.alertData.fixed}
+    class={error.alertData.class}
+  />
+
+  const loadMediaContent = () => media.mediaData.map((item) => {
+    return <MediaItem key={item.id} mediaData={item} />
+  })
+
+  const refreshLink = <Alert
+    message='Aby odświeżyć token, '
+    action={() => true}
+    actionText='kliknij w ten link'
+    actionHref={media.link}
+    fixed={true}
+    class='primary'
+  />
+
   return (
     <div className="row">
       <div className="col-md-6 mx-auto mb-4">
         <ul className="list-group">
           {manageItemsComponents}
         </ul>
-        {refreshLink}
+        {media.generatedLink && refreshLink}
       </div>
       <div className="col-12">
         <div className="row">
-          {mediaContent}
+          {media.mediaLoaded && loadMediaContent()}
         </div>
       </div>
-      {alert}
+      {error.displayError && alert}
     </div>
   );
 }

@@ -13,10 +13,12 @@ const Alert = (props) => {
     if(props.fixed) {
         console.log(alertWindowStyles);
     }
+
+    console.log(props);
     return (
         <div className="d-flex justify-content-center align-items-center" style={props.fixed ? alertWindowStyles : ''}>
             <div className={'alert alert-' + props.class} role="alert">
-                {props.message}<a href={props.actionHref} onClick={() => {props.action}} className="alert-link">{props.actionText}</a>
+                {props.message}<a href={props.actionHref} onClick={() => {props.action()}} className="alert-link">{props.actionText}</a>
             </div>
         </div>
     );

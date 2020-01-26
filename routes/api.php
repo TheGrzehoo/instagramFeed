@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/generateToken', 'InstagramController@generateToken');
+Route::get('/getMedia', 'InstagramController@getMedia');
+Route::get('/refreshToken', 'InstagramController@refreshToken');
+Route::get('/getMediaFromFile', 'InstagramController@getMediaFromFile');
+Route::post('/updateClient', 'ClientController@updateClient');
+Route::get('/isClientSaved', 'ClientController@isClientSaved');

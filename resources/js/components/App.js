@@ -6,6 +6,12 @@ import { useState } from 'react';
 import ManageInstaFeed from './ManageInstaFeed';
 import Loading from './util/Loading';
 import Logo from './Logo';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 
 export default function App () {
@@ -29,7 +35,7 @@ export default function App () {
     }
 
     if(userInfo.reloadPage){
-        axios.get('/isClientSaved').then((obj) => {
+        axios.get('/api/isClientSaved').then((obj) => {
             setUserInfo({
                 ...userInfo,
                 clientData: obj.data,
@@ -42,9 +48,13 @@ export default function App () {
     return (
         <div id="container" className="container">
             <Logo />
-            {pageContent()}
+            <Switch>
+                <Route path='/'>
+                    {pageContent()}
+                </Route>
+            </Switch>
         </div>
     );
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<Router><App /></Router>, document.getElementById('app'));
